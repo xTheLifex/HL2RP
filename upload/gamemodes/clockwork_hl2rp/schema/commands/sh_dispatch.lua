@@ -9,6 +9,7 @@ COMMAND.text = "<string Text>";
 COMMAND.flags = bit.bor(CMD_DEFAULT, CMD_FALLENOVER);
 COMMAND.arguments = 1;
 COMMAND.allowedRanks = {
+	["rec"] = true,
 	["sec"] = true,
 	["cmd"] = true,
 	["dvl"] = true,

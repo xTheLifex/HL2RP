@@ -112,7 +112,7 @@ FACTION.ranks = {
 
 -- Called when a player's name should be assigned for the faction.
 function FACTION:GetName(player, character)
-	return "UCA:C17.RCT-" .. Clockwork.kernel:ZeroNumberToDigits(math.random(1, 99999), 3);
+	return "UCA:C17.RCT-" .. Clockwork.kernel:ZeroNumberToDigits(math.random(1, 999), 3);
 end;
 
 -- Called when a player's model should be assigned for the faction.
@@ -128,14 +128,14 @@ end;
 function FACTION:OnTransferred(player, faction, name)
 	if (faction.name == FACTION_OTA or faction.name == FACTION_SCANNER) then
 		if (name) then
-			Clockwork.player:SetName(player, string.gsub(player:QueryCharacter("name"), ".+(%d%d%d%d%d)", "MPF.%1"), true);
+			Clockwork.player:SetName(player, string.gsub(player:QueryCharacter("name"), ".+(%d%d%d)", "UCA:C17.RCT-.%1"), true);
 		else
 			return false, "You need to specify a name as the third argument!";
 		end;
 	else
 		Clockwork.player:SetName(player, self:GetName(player, player:GetCharacter()));
 	end;
-	
+
 	if (player:QueryCharacter("gender") == GENDER_MALE) then
 		player:SetCharacterData("model", self.models.male[1], true);
 	else
