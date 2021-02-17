@@ -687,8 +687,6 @@ function Schema:ChatBoxMessageAdded(info)
 								eavesdroppers[v2] = v2;
 							end;
 						end;
-						
-						break;
 					end;
 				end;
 			end;
@@ -724,8 +722,6 @@ function Schema:PlayerRadioUsed(player, text, listeners, eavesdroppers)
 						newEavesdroppers[v2] = v2;
 					end;
 				end;
-				
-				break;
 			end;
 		end;
 	end;
