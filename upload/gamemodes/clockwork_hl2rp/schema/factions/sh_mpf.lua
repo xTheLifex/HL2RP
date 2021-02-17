@@ -12,16 +12,17 @@ FACTION.maxArmor = 100;
 FACTION.startChatNoise = "npc/overwatch/radiovoice/on1.wav";
 FACTION.endChatNoise = "npc/overwatch/radiovoice/off4.wav";
 FACTION.models = {
-	female = {"models/police.mdl"},
-	male = {"models/police.mdl"}
+	female = {"models/police_nemez.mdl"},
+	male = {"models/police_nemez.mdl"}
 };
 FACTION.weapons = {
-	"cw_stunstick"
+	--"cw_stunstick"
 };
 FACTION.startingInv = {
 	["handheld_radio"] = 1,
-	["weapon_pistol"] = 1,
-	["ammo_pistol"] = 2
+	["arccw_uspmatch"] = 1,
+	["ammo_pistol"] = 2,
+	["cw_stunstick"] = 1,
 };
 FACTION.respawnInv = {
 	["ammo_pistol"] = 2
@@ -45,38 +46,73 @@ FACTION.entRelationship = {
 };
 FACTION.ranks = {
 	["RCT"] = {
-		position = 5,
+		position = 12,
+		class = "Metropolice Recruit",
+		default = true
+	},
+	["i5"] = {
+		position = 11,
 		class = "Metropolice Recruit"
 	},
-	["EpU"] = {
-		position = 4,
-		class = "Elite Metropolice",
-		model = "models/police/leet_police2.mdl"
+	["i4"] = {
+		position = 10,
+		class = "Metropolice Recruit"
+	},
+	["i3"] = {
+		position = 9,
+		class = "Metropolice Recruit"
+	},
+	["i2"] = {
+		position = 8,
+		class = "Metropolice Recruit"
+	},
+	["i1"] = {
+		position = 7,
+		class = "Metropolice Recruit"
 	},
 	["OfC"] = {
-		position = 3,
+		position = 6,
 		class = "Elite Metropolice",
-		model = "models/police/policetrench.mdl"
+		model = "models/police_nemez.mdl"
+	},
+	["EpU"] = {
+		position = 5,
+		class = "Elite Metropolice",
+		model = "models/police_nemez.mdl"
 	},
 	["DvL"] = {
+		position = 4,
+		class = "Elite Metropolice",
+		model = "models/police_nemez.mdl",
+		canPromote = 6,
+		canDemote = 5
+	},
+	["CmD"] = {
+		position = 3,
+		class = "Elite Metropolice",
+		model = "models/police_nemez.mdl",
+		canPromote = 5,
+		canDemote = 4
+	},
+	["SeC"] = {
 		position = 2,
 		class = "Elite Metropolice",
-		model = "models/police/eliteshockcp.mdl",
+		model = "models/police_nemez.mdl",
 		canPromote = 4,
 		canDemote = 3
 	},
-	["SeC"] = {
+	["ReC"] = {
 		position = 1,
 		class = "Elite Metropolice",
-		model = "models/police/sect_police2.mdl",
+		model = "models/police_nemez.mdl",
 		canPromote = 3,
 		canDemote = 2
-	}
+	},
 };
 
 -- Called when a player's name should be assigned for the faction.
 function FACTION:GetName(player, character)
-	return "MPF."..Clockwork.kernel:ZeroNumberToDigits(math.random(1, 99999), 5);
+	return "UCA:C17.RCT-" .. Clockwork.kernel:ZeroNumberToDigits(math.random(1, 99999), 3);
 end;
 
 -- Called when a player's model should be assigned for the faction.
