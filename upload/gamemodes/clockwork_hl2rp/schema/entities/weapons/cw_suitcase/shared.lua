@@ -1,11 +1,11 @@
 --[[
-	© CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 --]]
 
 if (SERVER) then
 	AddCSLuaFile("shared.lua");
-	
+
 	SWEP.ActivityTranslate = {
 		[ACT_HL2MP_GESTURE_RANGE_ATTACK] = ACT_HL2MP_GESTURE_RANGE_ATTACK_FIST,
 		[ACT_HL2MP_GESTURE_RELOAD] = ACT_HL2MP_GESTURE_RELOAD_FIST,
@@ -38,7 +38,7 @@ SWEP.HoldType = "fist";
 
 SWEP.AdminSpawnable = false;
 SWEP.Spawnable = false;
-  
+
 SWEP.Primary.DefaultClip = 0;
 SWEP.Primary.Automatic = false;
 SWEP.Primary.ClipSize = -1;

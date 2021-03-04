@@ -11,7 +11,7 @@ AddCSLuaFile("shared.lua");
 -- Called when the entity initializes.
 function ENT:Initialize()
 	self:SetModel("models/props_interiors/vendingmachinesoda01a.mdl");
-	
+
 	self:SetMoveType(MOVETYPE_VPHYSICS);
 	self:PhysicsInit(SOLID_VPHYSICS);
 	self:SetUseType(SIMPLE_USE);
@@ -36,7 +36,7 @@ function ENT:CreateWater(activator)
 	local up = self:GetUp() * -24;
 
 	local class;
-	
+
 	if (chance == 20) then
 		class = "special_breen_s_water";
 	elseif (chance >= 10) then
@@ -44,7 +44,7 @@ function ENT:CreateWater(activator)
 	else
 		class = "breen_s_water";
 	end;
-	
+
 	Clockwork.entity:CreateItem(activator, Clockwork.item:CreateInstance(class), self:GetPos() + forward + right + up, self:GetAngles());
 end;
 
@@ -60,8 +60,8 @@ end;
 
 -- A function to set the entity's stock.
 function ENT:SetStock(amount, default)
-	self:SetDTInt(0, amount);
-	
+	self:SetStockCans(amount);
+
 	if (default) then
 		if (type(default) == "number") then
 			self.defaultStock = default;
@@ -81,7 +81,7 @@ end;
 -- A function to set the entity's flash duration.
 function ENT:SetFlashDuration(duration, action)
 	self:SetDTFloat(0, CurTime() + duration);
-	
+
 	if (action) then
 		self:SetDTBool(0, true);
 	else
@@ -102,7 +102,7 @@ end;
 function ENT:Use(activator, caller)
 	if (activator:IsPlayer() and activator:GetEyeTraceNoCursor().Entity == self) then
 		local curTime = CurTime();
-		
+
 		if (!self.nextUse or curTime >= self.nextUse) then
 			if (curTime > self:GetDTFloat(0)) then
 				self.nextUse = curTime + 3;

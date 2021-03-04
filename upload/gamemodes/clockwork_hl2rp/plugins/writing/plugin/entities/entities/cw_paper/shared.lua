@@ -1,5 +1,5 @@
 --[[
-	© CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 --]]
 
@@ -13,5 +13,5 @@ ENT.AdminSpawnable = false;
 
 -- Called when the datatables are setup.
 function ENT:SetupDataTables()
-	self:DTVar("Bool", 0, "note");
+	self:NetworkVar("Bool", 0, "WrittenOn");
 end;

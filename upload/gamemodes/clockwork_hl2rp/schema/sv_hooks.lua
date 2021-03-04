@@ -1164,21 +1164,21 @@ function Schema:ChatBoxAdjustInfo(info)
 				info.voice = info.voice or {};
 				info.voice.global = true;
 			end;
-			
+
 			local playerIsCombine = self:PlayerIsCombine(info.speaker);
-	
+
 			if (playerIsCombine) then
 				info.textTransformer = function(text)
 					local finalText = text;
-	
+
 					if (string.sub(info.text, 1, 4) != "<:: ") then
 						finalText = "<:: " .. finalText;
 					end;
-	
+
 					if (string.sub(info.text, -4) != " ::>") then
 						finalText = finalText .. " ::>";
 					end;
-	
+
 					return finalText;
 				end;
 			end;

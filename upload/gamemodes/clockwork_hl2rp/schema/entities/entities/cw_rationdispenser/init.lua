@@ -1,5 +1,5 @@
 --[[
-	© CloudSixteen.com do not share, re-distribute or modify
+	ï¿½ CloudSixteen.com do not share, re-distribute or modify
 	without permission of its author (kurozael@gmail.com).
 --]]
 
@@ -11,12 +11,12 @@ AddCSLuaFile("shared.lua");
 -- Called when the entity initializes.
 function ENT:Initialize()
 	self:SetModel("models/props_junk/watermelon01.mdl");
-	
+
 	self:SetMoveType(MOVETYPE_VPHYSICS);
 	self:PhysicsInit(SOLID_VPHYSICS);
 	self:SetUseType(SIMPLE_USE);
 	self:SetSolid(SOLID_VPHYSICS);
-	
+
 	self.dispenser = ents.Create("prop_dynamic");
 	self.dispenser:DrawShadow(false);
 	self.dispenser:SetAngles(self:GetAngles());
@@ -24,12 +24,12 @@ function ENT:Initialize()
 	self.dispenser:SetModel("models/props_combine/combine_dispenser.mdl");
 	self.dispenser:SetPos(self:GetPos());
 	self.dispenser:Spawn();
-	
+
 	self:DeleteOnRemove(self.dispenser);
-	
+
 	local minimum = Vector(-8, -8, -8);
 	local maximum = Vector(8, 8, 64);
-	
+
 	self:SetCollisionBounds(minimum, maximum);
 	self:SetCollisionGroup(COLLISION_GROUP_WORLD);
 	self:PhysicsInitBox(minimum, maximum);
@@ -52,20 +52,20 @@ end;
 
 -- A function to lock the entity.
 function ENT:Lock()
-	self:SetDTBool(0, true);
+	self:SetLocked(true);
 	self:EmitRandomSound();
 end;
 
 -- A function to unlock the entity.
 function ENT:Unlock()
-	self:SetDTBool(0, false);
+	self:SetLocked(false);
 	self:EmitRandomSound();
 end;
 
 -- A function to set the entity's flash duration.
 function ENT:SetFlashDuration(duration)
 	self:EmitSound("buttons/combine_button_locked.wav");
-	self:SetDTFloat(1, CurTime() + duration);
+	self:SetFlashTime(CurTime() + duration);
 end;
 
 -- A function to create a dummy ration.
@@ -73,78 +73,75 @@ function ENT:CreateDummyRation()
 	local forward = self:GetForward() * 15;
 	local right = self:GetRight() * 0;
 	local up = self:GetUp() * -8;
-	
+
 	local entity = ents.Create("prop_physics");
-	
+
 	entity:SetAngles(self:GetAngles());
 	entity:SetModel("models/weapons/w_package.mdl");
 	entity:SetPos(self:GetPos() + forward + right + up);
 	entity:Spawn();
-	
+
 	return entity;
 end;
 
 -- A function to activate the entity's ration.
 function ENT:ActivateRation(activator, duration, force)
 	local curTime = CurTime();
-	
+
 	if (!duration) then duration = 24; end;
-	
+
 	if (force or !self.nextActivateRation or curTime >= self.nextActivateRation) then
 		self.nextActivateRation = curTime + duration + 2;
-		self:SetDTFloat(0, curTime + duration);
-		
-		Clockwork.kernel:CreateTimer("ration_"..self:EntIndex(), duration, 1, function()
-			if (IsValid(self)) then
-				local frameTime = FrameTime() * 0.5;
-				local dispenser = self.dispenser;
-				local entity = self:CreateDummyRation();
-				
-				if (IsValid(entity)) then
-					dispenser:EmitSound("ambient/machines/combine_terminal_idle4.wav");
-					
-					entity:SetNotSolid(true);
-					entity:SetParent(dispenser);
-					
-					timer.Simple(frameTime, function()
-						if (IsValid(self) and IsValid(entity)) then
-							entity:Fire("SetParentAttachment", "package_attachment", 0);
-							
-							timer.Simple(frameTime, function()
-								if (IsValid(self) and IsValid(entity)) then
-									dispenser:Fire("SetAnimation", "dispense_package", 0);
-									
-									timer.Simple(1.75, function()
-										if (IsValid(self) and IsValid(entity)) then
-											local position = entity:GetPos();
-											local angles = entity:GetAngles();
-											
-											entity:CallOnRemove("CreateRation", function()
-												if (IsValid(activator)) then
-													local itemTable = Clockwork.item:CreateInstance("ration");
-													
-													if (itemTable) then
-														Clockwork.entity:CreateItem(activator, itemTable, position, angles);
-													end;
-												end;
-											end);
-											
-											if (IsValid(activator) and !force) then
-												if (activator:GetCharacterData("CustomClass") == "Civil Worker's Union") then
-													self:ActivateRation(activator, 8, true);
-												end;
-											end;
-											
-											entity:SetNoDraw(true);
-											entity:Remove();
-										end;
-									end);
+		self:SetRationTime(curTime + duration);
+
+		Clockwork.kernel:CreateTimer("ration_" .. self:EntIndex(), duration, 1, function()
+			if (!IsValid(self)) then return end;
+
+			local dispenser = self.dispenser;
+			local entity = self:CreateDummyRation();
+
+			if (!IsValid(entity)) then return end;
+
+			dispenser:EmitSound("ambient/machines/combine_terminal_idle4.wav");
+
+			entity:SetNotSolid(true);
+			entity:SetParent(dispenser);
+
+			timer.Simple(0, function()
+				if !(IsValid(self) and IsValid(entity)) then return end;
+
+				entity:Fire("SetParentAttachment", "package_attachment", 0);
+
+				timer.Simple(0, function()
+					if !(IsValid(self) and IsValid(entity)) then return end;
+
+					dispenser:Fire("SetAnimation", "dispense_package", 0);
+
+					timer.Simple(1.75, function()
+						if !(IsValid(self) and IsValid(entity)) then return end;
+
+						local position = entity:GetPos();
+						local angles = entity:GetAngles();
+
+						entity:CallOnRemove("CreateRation", function()
+							if (IsValid(activator)) then
+								local itemTable = Clockwork.item:CreateInstance("ration");
+
+								if (itemTable) then
+									Clockwork.entity:CreateItem(activator, itemTable, position, angles);
 								end;
-							end);
+							end;
+						end);
+
+						if (IsValid(activator) and !force) and (activator:GetCharacterData("CustomClass") == "Civil Worker's Union") then
+							self:ActivateRation(activator, 8, true);
 						end;
+
+						entity:SetNoDraw(true);
+						entity:Remove();
 					end);
-				end;
-			end;
+				end);
+			end);
 		end);
 	end;
 end;
@@ -158,7 +155,7 @@ function ENT:EmitRandomSound()
 		"buttons/combine_button5.wav",
 		"buttons/combine_button7.wav"
 	};
-	
+
 	self:EmitSound(randomSounds[ math.random(1, #randomSounds) ]);
 end;
 
@@ -175,13 +172,13 @@ function ENT:Use(activator, caller)
 	if (activator:IsPlayer() and activator:GetEyeTraceNoCursor().Entity == self) then
 		local curTime = CurTime();
 		local unixTime = os.time();
-		
+
 		if (!self.nextUse or curTime >= self.nextUse) then
 			if (activator:GetFaction() == FACTION_CITIZEN) then
 				if (!self:IsLocked() and unixTime >= activator:GetCharacterData("NextRation", 0)) then
 					if (!self.nextActivateRation or curTime >= self.nextActivateRation) then
 						self:ActivateRation(activator);
-						
+
 						activator:SetCharacterData("NextRation", unixTime + Clockwork.config:Get("wages_interval"):Get() * 10);
 					end;
 				else
@@ -190,7 +187,7 @@ function ENT:Use(activator, caller)
 			elseif (!self.nextActivateRation or curTime >= self.nextActivateRation) then
 				self:Toggle();
 			end;
-			
+
 			self.nextUse = curTime + 3;
 		end;
 	end;

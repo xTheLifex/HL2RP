@@ -19,12 +19,12 @@ ENT.noHandsPickup = true;
 
 -- Called when the datatables are setup.
 function ENT:SetupDataTables()
-	self:DTVar("Float", 0, "smokeCharge");
-	self:DTVar("Float", 1, "flash");
-	self:DTVar("Bool", 0, "locked");
+	self:NetworkVar("Float", 0, "SmokeChargeTime");
+	self:NetworkVar("Float", 1, "FlashTime");
+	self:NetworkVar("Bool", 0, "Locked");
 end;
 
 -- A function to get whether the entity is locked.
 function ENT:IsLocked()
-	return self:GetDTBool(0);
+	return self:GetLocked();
 end;
