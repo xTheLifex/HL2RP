@@ -10,7 +10,7 @@ table.insert(Clockwork.voices.chatClasses, "dispatch");
 Clockwork.voices:RegisterGroup("Dispatch", false, function(player)
 	local faction = player:GetFaction();
 
-	return faction == FACTION_SCANNER;
+	return Schema:PlayerIsCombine(player) or faction == FACTION_SCANNER;
 end);
 
 Clockwork.voices:RegisterGroup("Combine", false, function(player)
