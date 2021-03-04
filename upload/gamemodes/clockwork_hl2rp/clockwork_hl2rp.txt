@@ -1,6 +1,6 @@
 "hl2rp"
 {
-	"title"			"HL2RP"
+	"title"			"HL2 RP"
 	"author"		"kurozael"
 	"description"	"A roleplaying schema by Cloud Sixteen set in the Half-Life universe."
 	"version"		"1.3"
