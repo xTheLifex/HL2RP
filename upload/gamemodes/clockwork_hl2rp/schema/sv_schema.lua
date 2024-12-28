@@ -47,6 +47,13 @@ Clockwork.kernel:AddFile("resource/fonts/vacersansregularpersonal.ttf");
 Clockwork.kernel:AddFile("resource/fonts/mailartrubberstamp.ttf");
 Clockwork.kernel:AddFile("resource/fonts/goldenageregular.ttf");
 Clockwork.kernel:AddFile("resource/fonts/monofonto.ttf");
+Clockwork.kernel:AddFile("resource/fonts/gordin-black.ttf");
+Clockwork.kernel:AddFile("resource/fonts/gordin-bold.ttf");
+Clockwork.kernel:AddFile("resource/fonts/gordin-light.ttf");
+Clockwork.kernel:AddFile("resource/fonts/gordin-regular.ttf");
+Clockwork.kernel:AddFile("resource/fonts/gordin-semibold.ttf");
+Clockwork.kernel:AddFile("resource/fonts/newscycleregular.ttf");
+Clockwork.kernel:AddFile("resource/fonts/runescape_uf.ttf");
 
 Clockwork.kernel:AddDirectory("materials/models/humans/female/group01/cityadm_sheet.*");
 Clockwork.kernel:AddDirectory("materials/models/humans/male/group01/cityadm_sheet.*");

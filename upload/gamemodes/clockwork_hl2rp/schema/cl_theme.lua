@@ -5,7 +5,7 @@
 
 local THEME = Clockwork.theme:Begin(true);
 
-local FONT_USED = "Mailart Rubberstamp"; -- "Accidental Presidency"
+local FONT_USED = "GorDIN"; -- "Accidental Presidency"
 
 -- Called when fonts should be created.
 function THEME:CreateFonts()

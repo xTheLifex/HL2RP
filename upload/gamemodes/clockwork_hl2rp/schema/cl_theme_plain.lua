@@ -5,7 +5,7 @@
 
 local THEME = Clockwork.theme:Begin(true);
 
-local FONT_USED = "Monofonto"; -- ?
+local FONT_USED = "GorDIN"; -- ?
 
 -- Called when fonts should be created.
 function THEME:CreateFonts()
