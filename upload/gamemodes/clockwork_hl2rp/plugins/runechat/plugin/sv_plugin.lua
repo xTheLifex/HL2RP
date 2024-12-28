@@ -7,6 +7,7 @@ Clockwork.config:Add("runechat_messagelen", 32, true, true)
 Clockwork.config:Add("runechat_messagetime", 5, true, true)
 Clockwork.config:Add("runechat_max", 3, true, true)
 Clockwork.config:Add("runechat_enabled", true, true, true)
+Clockwork.config:Add("runechat_range", 512, true, true)
 
 util.AddNetworkString("cwRunechatAddMessage")
 
@@ -15,10 +16,12 @@ local allowedClasses = {
     ["yell"] = true,
     ["whisper"] = true,
     ["me"] = true,
+    ["mel"] = true,
+    ["mec"] = true,
     ["looc"] = false, -- Enable LOOC here.
     ["ooc"] = false, -- Enable OOC here.
     ["radio"] = false, -- Enable Radio here.
-    ["request"] = false, -- Enable Request Device here
+    ["request"] = true, -- Enable Request Device here
 }
 
 function runechat:ChatBoxMessageAdded(info)

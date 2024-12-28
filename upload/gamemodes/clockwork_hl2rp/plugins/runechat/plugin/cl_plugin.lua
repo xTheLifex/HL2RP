@@ -31,6 +31,8 @@ local classFormat = {
     ["radio"]   = ": %s :",
     ["request"] = "! %s !",
     ["me"]      = "** %s",
+    ["mec"]      = "** %s",
+    ["mel"]      = "** %s",
 }
 
 local classColors = {
@@ -43,6 +45,8 @@ local classColors = {
     ["radio"]   = Color(75, 150, 50),
     ["request"] = Color(200,125,45),
     ["me"]      = Color(248,235,119),
+    ["mel"]      = Color(248,235,119),
+    ["mec"]      = Color(248,235,119),
 }
 
 local classFonts = {
@@ -54,6 +58,8 @@ local classFonts = {
     ["radio"]   = runechat.font,
     ["request"] = runechat.font,
     ["me"]      = runechat.font,
+    ["mel"]      = runechat.fontYell,
+    ["mec"]      = runechat.fontWhisper
 }
 
 /* -------------------------------------------------------------------------- */
@@ -109,6 +115,7 @@ hook.Add("PostDrawEffects", "cwRunechatRender", function()
         if not IsValid(ply) or not ply:Alive() then continue end
         if not IsPlayerVisibleToLocalPlayer(ply) then continue end
         if Clockwork.player:IsNoClipping(Clockwork.Client) then continue end
+        if (ply == LocalPlayer() and (not Clockwork.Client:GetThirdPerson())) then continue end
 
         local nearbyCount = 0
         -- Count players within the specified range
@@ -141,6 +148,13 @@ hook.Add("PostDrawEffects", "cwRunechatRender", function()
             local remainingTime = runemsg.time - CurTime()
             local messageOpacity = runechat.opacity
             
+            -- If ragdolled, fade faster.
+            if (ply:IsRagdolled()) then
+                if (remainingTime > 2) then
+                    runemsg.time = CurTime() + 1
+                end
+            end
+
             -- Fade messages with less than 2 seconds left
             if remainingTime <= 2 then
                 messageOpacity = math.max((remainingTime / 2) * 255, 0)
