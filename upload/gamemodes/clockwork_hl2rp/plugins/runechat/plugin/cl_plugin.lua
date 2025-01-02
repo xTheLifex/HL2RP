@@ -30,9 +30,9 @@ local classFormat = {
     ["ooc"]     = "[%s]",
     ["radio"]   = ": %s :",
     ["request"] = "! %s !",
-    ["me"]      = "** %s",
-    ["mec"]      = "** %s",
-    ["mel"]      = "** %s",
+    ["me"]      = "*** %s",
+    ["mec"]      = "* %s",
+    ["mel"]      = "***** %s",
 }
 
 local classColors = {
@@ -139,7 +139,11 @@ hook.Add("PostDrawEffects", "cwRunechatRender", function()
         if not messages or #messages == 0 then continue end
 
         local height = 12
-        local pos = (ply:GetBonePosition(ply:LookupBone("ValveBiped.Bip01_Head1")) + Vector(0,0,height)) or (ply:GetPos() + Vector(0, 0, 72+height))
+        local bone = ply:LookupBone("ValveBiped.Bip01_Head1")
+        local pos = ply:GetPos() + Vector(0, 0, 64+height)
+        if bone then
+            local pos = ply:GetBonePosition(bone) + Vector(0,0,height)
+        end
         local offsetY = 0
         for i = #messages, 1, -1 do -- Draw messages in reverse order
             local runemsg = messages[i]
