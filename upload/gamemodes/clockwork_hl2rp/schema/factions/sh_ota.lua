@@ -13,8 +13,8 @@ FACTION.maxArmor = 150;
 FACTION.startChatNoise = "npc/overwatch/radiovoice/on1.wav";
 FACTION.endChatNoise = "npc/overwatch/radiovoice/off4.wav";
 FACTION.models = {
-	female = {"models/combine_soldierproto.mdl"},
-	male = {"models/combine_soldierproto.mdl"}
+	female = {"models/ug/combine_soldier_ug.mdl"},
+	male = {"models/ug/combine_soldier_ug.mdl"}
 };
 FACTION.ranks = {
 	["OWS"] = {

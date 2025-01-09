@@ -2,7 +2,7 @@
 /*                               Config & Setup                               */
 /* -------------------------------------------------------------------------- */
 -- function Clockwork.config:AddToSystem(name, key, help, minimum, maximum, decimals, category)
-Clockwork.config:AddToSystem("Runechat - Enabled", "runechat_enabled", "Enables Runechat behaviour.")
+Clockwork.config:AddToSystem("Runechat - Enabled", "runechat_enabled", "Enables Runechat behaviour.", nil, nil, nil, "Runechat")
 Clockwork.config:AddToSystem("Runechat - Minimum Players", "runechat_minplayers", "Minimum players before runechat shows up.", 1, 32, 0, "Runechat")
 Clockwork.config:AddToSystem("Runechat - Message Length", "runechat_messagelen", "Message Length for runechat text.", 8, 256, 0, "Runechat")
 Clockwork.config:AddToSystem("Runechat - Message Time", "runechat_messagetime", "Time runechat text stays on screen.", 1, 60, nil, "Runechat")

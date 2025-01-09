@@ -12,8 +12,8 @@ FACTION.maxArmor = 100;
 FACTION.startChatNoise = "npc/overwatch/radiovoice/on1.wav";
 FACTION.endChatNoise = "npc/overwatch/radiovoice/off4.wav";
 FACTION.models = {
-	female = {"models/police_nemez.mdl"},
-	male = {"models/police_nemez.mdl"}
+	female = {"models/ug/police_custom.mdl"},
+	male = {"models/ug/police_custom.mdl"}
 };
 FACTION.weapons = {
 	--"cw_stunstick"
