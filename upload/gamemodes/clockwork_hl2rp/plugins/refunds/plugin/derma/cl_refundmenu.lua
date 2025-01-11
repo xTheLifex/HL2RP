@@ -27,6 +27,13 @@ function refunds.CreateRefundMenu()
         draw.RoundedBox(0, 0, 0, w, h, Color(255, 255, 255, 10)) -- Transparent base
     end
 
+    -- Create the search bar at the top
+    local searchBar = vgui.Create("DTextEntry", itemListPanel)
+    searchBar:Dock(TOP) -- Keep it docked to the top
+    searchBar:SetHeight(30) -- Set a consistent height
+    searchBar:SetPlaceholderText("Search items...")
+    searchBar:SetUpdateOnType(true) -- Update search as the user types
+
     local cart = refunds.cart or {}
 
     -- Create the cart panel
@@ -66,66 +73,95 @@ function refunds.CreateRefundMenu()
     local scrollPanel = vgui.Create("DScrollPanel", itemListPanel)
     scrollPanel:Dock(FILL)
 
-    for category, items in pairs(itemsByCategory) do
-        -- Add category label
-        local categoryLabel = vgui.Create("DLabel", scrollPanel)
-        categoryLabel:SetText(category)
-        categoryLabel:SetFont("DermaLarge")
-        categoryLabel:Dock(TOP)
-        categoryLabel:DockMargin(5, 10, 5, 5)
-        categoryLabel:SetTextColor(Color(255, 255, 255))
-
-        -- Add a container for the icons
-        local categoryIcons = vgui.Create("DIconLayout", scrollPanel)
-        categoryIcons:SetSpaceX(5)
-        categoryIcons:SetSpaceY(5)
-        categoryIcons:Dock(TOP)
-        categoryIcons:SetHeight(128) -- Adjust height based on number of items
-
-        for _, item in ipairs(items) do
-            local itemIcon = categoryIcons:Add("SpawnIcon")
-            itemIcon:SetModel(item.model or "models/hunter/blocks/cube025x025x025.mdl")
-            itemIcon:SetTooltip(T(item.name) or "Unknown")
-            itemIcon:SetSize(64, 64)
-
-            -- Update color based on cart status
-            local function UpdateIconColor()
-                if cart[item.uniqueID] and cart[item.uniqueID] > 0 then
-                    itemIcon:SetColor(Color(0, 255, 0)) -- Green for added items
-                else
-                    itemIcon:SetColor(Color(255, 255, 255)) -- Default
+    local function FilterItems(query)
+        query = query:lower() -- Convert to lowercase for case-insensitive matching
+    
+        -- Clear the current items display
+        scrollPanel:Clear()
+    
+        for category, items in pairs(itemsByCategory) do
+            local categoryMatches = false
+            local categoryIcons = nil
+    
+            -- Check if any item in the category matches the search query
+            for _, item in ipairs(items) do
+                if item.name:lower():find(query) then
+                    categoryMatches = true
+                    break
                 end
             end
-
-            -- Add to cart on left click
-            itemIcon.DoClick = function()
-                cart[item.uniqueID] = cart[item.uniqueID] or 0
-                cart[item.uniqueID] = cart[item.uniqueID] + 1
-                notification.AddLegacy(item.name .. " added to cart!", NOTIFY_GENERIC, 2)
-                UpdateIconColor()
-                UpdateCart()
+    
+            if categoryMatches then
+                -- Add category label
+                local categoryLabel = vgui.Create("DLabel", scrollPanel)
+                categoryLabel:SetText(category)
+                categoryLabel:SetFont("DermaLarge")
+                categoryLabel:Dock(TOP)
+                categoryLabel:DockMargin(5, 10, 5, 5)
+                categoryLabel:SetTextColor(Color(255, 255, 255))
+    
+                -- Add a container for the icons
+                categoryIcons = vgui.Create("DIconLayout", scrollPanel)
+                categoryIcons:SetSpaceX(5)
+                categoryIcons:SetSpaceY(5)
+                categoryIcons:Dock(TOP)
+                categoryIcons:SetHeight(128) -- Adjust height dynamically as needed
             end
-
-            -- Remove from cart on right click
-            itemIcon.DoRightClick = function()
-                if cart[item.uniqueID] and cart[item.uniqueID] > 0 then
-                    cart[item.uniqueID] = cart[item.uniqueID] - 1
-                    if cart[item.uniqueID] <= 0 then
-                        cart[item.uniqueID] = nil
+    
+            -- Add matching items to the category
+            for _, item in ipairs(items) do
+                if item.name:lower():find(query) then
+                    local itemIcon = categoryIcons:Add("SpawnIcon")
+                    itemIcon:SetModel(item.model or "models/hunter/blocks/cube025x025x025.mdl")
+                    itemIcon:SetTooltip(T(item.name) or "Unknown")
+                    itemIcon:SetSize(64, 64)
+    
+                    -- Update color based on cart status
+                    local function UpdateIconColor()
+                        if cart[item.uniqueID] and cart[item.uniqueID] > 0 then
+                            itemIcon:SetColor(Color(0, 255, 0)) -- Green for added items
+                        else
+                            itemIcon:SetColor(Color(255, 255, 255)) -- Default
+                        end
                     end
-                    notification.AddLegacy(item.name .. " removed from cart!", NOTIFY_GENERIC, 2)
+    
+                    -- Add to cart on left click
+                    itemIcon.DoClick = function()
+                        cart[item.uniqueID] = cart[item.uniqueID] or 0
+                        cart[item.uniqueID] = cart[item.uniqueID] + 1
+                        notification.AddLegacy(item.name .. " added to cart!", NOTIFY_GENERIC, 2)
+                        UpdateIconColor()
+                        UpdateCart()
+                    end
+    
+                    -- Remove from cart on right click
+                    itemIcon.DoRightClick = function()
+                        if cart[item.uniqueID] and cart[item.uniqueID] > 0 then
+                            cart[item.uniqueID] = cart[item.uniqueID] - 1
+                            if cart[item.uniqueID] <= 0 then
+                                cart[item.uniqueID] = nil
+                            end
+                            notification.AddLegacy(item.name .. " removed from cart!", NOTIFY_GENERIC, 2)
+                            UpdateIconColor()
+                            UpdateCart()
+                        end
+                    end
+    
+                    -- Initial color setup
                     UpdateIconColor()
-                    UpdateCart()
                 end
             end
-
-            -- Initial color setup
-            UpdateIconColor()
         end
+    end
+    
+    -- Update the displayed items when the user types in the search bar
+    searchBar.OnChange = function()
+        FilterItems(searchBar:GetValue())
     end
 
     -- Initial cart population
     UpdateCart()
+
 
 
     /* -------------------------------------------------------------------------- */
@@ -243,7 +279,7 @@ function refunds.CreateRefundMenu()
 
         -- Example active requests (placeholder logic)
         for i = 1, 10 do
-            local requestItems = {"item_1", "item_2", "item_3"} -- Replace with real item IDs
+            local requestItems = {"book_aa", "book_aa", "book_aa"} -- Replace with real item IDs
             local line = activeRequestsList:AddLine(
                 i,
                 "Character " .. i,
