@@ -18,10 +18,13 @@ FACTION.models = {
 		"models/ug/humans/female_04.mdl",
 		"models/ug/humans/female_06.mdl",
 		"models/ug/humans/female_07.mdl",
-		"models/ug/humans/female_08.mdl",
-		"models/ug/humans/female_09.mdl",
 		"models/ug/humans/female_10.mdl",
 		"models/ug/humans/female_11.mdl",
+		"models/ug/humans/female_17.mdl",
+		"models/ug/humans/female_18.mdl",
+		"models/ug/humans/female_19.mdl",
+		"models/ug/humans/female_24.mdl",
+		"models/ug/humans/female_25.mdl",
 	},
 	male = {
 		"models/ug/humans/male_01.mdl",
@@ -36,12 +39,8 @@ FACTION.models = {
 		"models/ug/humans/male_10.mdl",
 		"models/ug/humans/male_11.mdl",
 		"models/ug/humans/male_12.mdl",
-		"models/ug/humans/male_13.mdl",
-		"models/ug/humans/male_14.mdl",
 		"models/ug/humans/male_15.mdl",
 		"models/ug/humans/male_16.mdl",
-		"models/ug/humans/male_17.mdl",
-		"models/ug/humans/male_18.mdl",
 	};
 };
 
